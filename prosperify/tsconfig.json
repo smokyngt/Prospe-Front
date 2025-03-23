@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // Utilise la dernière version de JavaScript
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Lib pour le navigateur et React
+    "allowJs": true, // Autorise les fichiers JS
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext", // Utilise les modules ES
+    "moduleResolution": "Node", // Résolution des modules Node
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx", // JSX support pour React
+    "baseUrl": ".", // Base du projet
+    "paths": {
+      "@/*": ["./src/*"] // Alias vers le dossier src
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}
