@@ -14,7 +14,7 @@ const Export:React.FC = () => {
   return (
     <>
       <SidebarAssistant title={'Export'} />
-      <div className="p-4 bg-white ml-64">
+      <div className="p-4 bg-white ">
         <div className="p-4 rounded-lg w-2/3">
           <h2 className="text-base font-semibold mb-2">Install Your Chatbot</h2>
           <p className="text-sm text-custom-gray-dark mb-4">Install or share your chatbot with your customers or team by using the code snippets below.</p>

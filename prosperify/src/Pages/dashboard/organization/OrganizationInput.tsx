@@ -27,7 +27,7 @@ const OrganizationInput: React.FC = () => {
   return (
     <>
       <SidebarOrga title={'Organization'} />
-      <div className="p-4 bg-white ml-64">
+      <div className="p-4 bg-white ">
         <div className="p-4 rounded-lg w-2/3 border border-gray-200">
           <h2 className="text-base font-semibold mb-2">Set Organization Name</h2>
           <p className="text-sm text-custom-gray-dark mb-4">

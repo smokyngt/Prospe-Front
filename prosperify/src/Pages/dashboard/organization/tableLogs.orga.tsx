@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AlertError from '../../base/Alert/alertError'
+import AlertError from '../../../components/common/base/Alert/alertError'
 const initialLogs = [
   {
     user: 'John Doe',
@@ -40,6 +40,8 @@ const TableLogs: React.FC = () => {
 
   return (
     <>
+     <div className="p-4 bg-white ">
+     <div className="p-4 rounded-lg w-full">
       <div className="bg-white w-full">
         <h2 className="text-base font-semibold mb-2 font-sans">Logs</h2>
         <p className="text-sm text-gray-600 mb-4">View the latest activities of users and which assistant they used.</p>
@@ -119,6 +121,8 @@ const TableLogs: React.FC = () => {
             </table>
           </div>
         </div>
+      </div>
+      </div>
       </div>
     </>
   )

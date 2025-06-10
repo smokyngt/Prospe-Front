@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import CreateRoleModal from './create-role.orga'
-import AlertSuccess from '../../base/Alert/alertSuccess'
-import AlertError from '../../base/Alert/alertError'
+import CreateRoleModal from '../../../components/common/dashboardComponent/Organization/create-role.orga'
+import AlertSuccess from '../../../components/common/base/Alert/alertSuccess'
+import AlertError from '../../../components/common/base/Alert/alertError'
 
 const initialRoles = [
   {
@@ -43,6 +43,8 @@ const RoleManagementTable: React.FC = () => {
 
   return (
     <>
+    <div className="p-4 bg-white ">
+    <div className="p-4 rounded-lg w-full">
       <div className="bg-white w-full">
         <h2 className="text-base font-semibold mb-2 font-sans">Manage Roles</h2>
         <p className="text-sm text-gray-600 mb-4">
@@ -183,6 +185,8 @@ const RoleManagementTable: React.FC = () => {
         </div>
       </div>
       <CreateRoleModal onCreateRole={handleCreateRole} />
+      </div>
+      </div>
     </>
   )
 }

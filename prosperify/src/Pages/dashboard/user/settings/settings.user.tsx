@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Sidebar from '../../../../components/common/dashboardComponent/user/sidebar.user'
 import AlertSuccess from '../../../../components/common/base/Alert/alertSuccess'
 import AlertError from '../../../../components/common/base/Alert/alertError'
 import ProfileContent from '../../../../components/common/dashboardComponent/user/settings/profil.user'
@@ -23,8 +22,7 @@ const SettingsUser: React.FC = () => {
 
   return (
     <>
-      <Sidebar />
-      <div className="p-4 bg-white ml-64">
+      <div className="p-4 bg-white ">
         <div className="fixed top-4 right-4 z-50">
           {success && <AlertSuccess message={success} onClose={() => setSuccess(null)} />}
           {error && <AlertError message={error} onClose={() => setError(null)} description={''} />}

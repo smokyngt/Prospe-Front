@@ -41,12 +41,14 @@ const CreateAssistantOrga: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full px-4">
-      <div className="p-6 w-full max-w-7xl">
-        <p className="mt-1 text-sm text-gray-600 text-center">
+    <div className="p-4 bg-white ">
+    <div className="p-4 rounded-lg w-full">
+    <h2 className="text-base font-semibold mb-2">Create assistant</h2>
+    <p className="mt-1 text-sm text-gray-600">
           Select an assistant to start a new conversation and get the support you need for your projects.
         </p>
-      </div>
+    <div className="flex flex-col items-center w-full px-4">
+     
       <div className='w-full flex justify-end items-center m-10'>
       <CreateAssistantButton onSave={handleAddAssistant} />
       </div>
@@ -72,6 +74,8 @@ const CreateAssistantOrga: React.FC = () => {
         <div className="flex justify-center items-center h-full">
         </div>
       </div>
+    </div>
+    </div>
     </div>
   );
 };
