@@ -1,5 +1,5 @@
 import React from 'react'
-import Button from '../../../Button/Button.common'
+import Button from '../../../../common/base/Button/Button.common'
 const DeleteAccountContent: React.FC = () => {
   return (
     <div>

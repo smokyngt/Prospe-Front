@@ -1,9 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './Pages/home';
-import { IStaticMethods } from 'preline/preline';
-import 'preline/preline';
-import 'preline/dist/preline';
+import type { IStaticMethods } from 'preline/preline';
+import 'preline';
 
 import Dashboard from './Pages/dashboard/user/dashboard.user';
 import Settings from './Pages/dashboard/user/settings/settings.user';
@@ -32,11 +31,15 @@ declare global {
   }
 }
 
-const App: React.FC = () => {
-  window.HSStaticMethods.autoInit();
+const AppRoutes: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Re-scan the DOM for Preline components after navigation or initial mount
+    window.HSStaticMethods?.autoInit?.();
+  }, [location.pathname]);
 
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -69,8 +72,13 @@ const App: React.FC = () => {
           <Route path="members" element={<div>Gestion des Membres</div>} />
         </Route>
       </Routes>
-    </Router>
   );
 };
+
+const App: React.FC = () => (
+  <Router>
+    <AppRoutes />
+  </Router>
+);
 
 export default App;

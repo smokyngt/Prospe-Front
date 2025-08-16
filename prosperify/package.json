@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@preline/file-upload": "^2.5.0",
+    "@radix-ui/react-slot": "^1.2.3",
     "apexcharts": "^3.54.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dropzone": "^6.0.0-beta.2",
     "framer-motion": "^11.15.0",
-    "loadash": "^1.0.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.468.0",
     "preline": "^2.5.1",

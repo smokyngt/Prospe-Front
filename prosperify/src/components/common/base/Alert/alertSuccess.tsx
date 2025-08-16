@@ -1,24 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 
 interface AlertSuccessProps {
   message: string;
   onClose: () => void;
+  duration?: number;
+  autoClose?: boolean;
 }
 
-const AlertSuccess: React.FC<AlertSuccessProps> = ({ message, onClose }) => {
+const AlertSuccess: React.FC<AlertSuccessProps> = ({ message, onClose, duration = 5000, autoClose = true }) => {
+  const id = useId();
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
+    if (!autoClose) return;
     const timer = setTimeout(() => {
-      onClose(); // Trigger the close action after 5 seconds
-    }, 5000);
-    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
-  }, [onClose]);
+      onCloseRef.current();
+    }, duration);
+    return () => clearTimeout(timer);
+  }, [autoClose, duration]);
 
   return (
     <div
-      className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30 z-1000"
-      role="alert"
-      tabIndex={-1}
-      aria-labelledby="hs-bordered-success-style-label"
+  className="bg-teal-50 border-t-2 border-teal-500 rounded-lg p-4 dark:bg-teal-800/30 z-[1000]"
+  role="alert"
+  aria-live="polite"
+  aria-atomic="true"
     >
       <div className="flex">
         <div className="shrink-0">
@@ -41,11 +48,19 @@ const AlertSuccess: React.FC<AlertSuccessProps> = ({ message, onClose }) => {
           </span>
         </div>
         <div className="ms-3">
-          <h3 id="hs-bordered-success-style-label" className="text-gray-800 font-semibold dark:text-white">
+          <h3 id={id} className="text-gray-800 font-semibold dark:text-white">
             Success!
           </h3>
           <p className="text-sm text-gray-700 dark:text-neutral-400">{message}</p>
         </div>
+        <button
+          type="button"
+          aria-label="Close"
+          className="ms-auto text-teal-700 hover:text-teal-900 dark:text-teal-300 dark:hover:text-teal-100"
+          onClick={onClose}
+        >
+          ×
+        </button>
       </div>
     </div>
   );

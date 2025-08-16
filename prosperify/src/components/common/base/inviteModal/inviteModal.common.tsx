@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Button from '../base/Button/Button.common'
+import Button from '../Button/Button.common'
 
 const InviteModal: React.FC = () => {
   const [email, setEmail] = useState<string>('')

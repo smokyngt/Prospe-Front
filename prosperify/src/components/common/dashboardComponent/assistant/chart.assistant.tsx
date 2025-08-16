@@ -3,8 +3,9 @@ import ApexCharts from 'apexcharts'
 
 const Charts: React.FC = () => {
   useEffect(() => {
+    let chart: ApexCharts | null = null
     const buildChart = (selector: string, config: any) => {
-      const chart = new ApexCharts(document.querySelector(selector), config('light'))
+      chart = new ApexCharts(document.querySelector(selector), config('light'))
       chart.render()
     }
 
@@ -134,7 +135,7 @@ const Charts: React.FC = () => {
         y: {
           formatter: (value: number) => `$${value >= 1000 ? `${value / 1000}k` : value}`
         },
-        custom: function ({ series, seriesIndex, dataPointIndex, w}) {
+  custom: function ({ series, seriesIndex, dataPointIndex, w}: { series: number[][]; seriesIndex: number; dataPointIndex: number; w: any }) {
           const data = w.globals.initialSeries[seriesIndex].data[dataPointIndex]
           const date = w.globals.labels[dataPointIndex]
           return `
@@ -185,6 +186,12 @@ const Charts: React.FC = () => {
         }
       }]
     }))
+
+    return () => {
+      if (chart) {
+        chart.destroy()
+      }
+    }
   }, [])
 
   return (
