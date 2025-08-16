@@ -1,82 +1,228 @@
 "use client"
-import { Button } from "./ui/buttonChat"
-import { Input } from "./ui/InputChat"
-import { Plus, Search, MessageSquare, Filter, Clock, FileText } from "lucide-react"
 
-export function ChatSidebar() {
-  const recentChats = [
-    { id: "1", title: "Contrat Verdi 2021", lastMessage: "Recherche sur les clauses...", time: "10:30" },
-    { id: "2", title: "Analyse financière Q4", lastMessage: "Données de performance...", time: "09:15" },
-    { id: "3", title: "Rapport technique", lastMessage: "Spécifications techniques...", time: "Hier" },
-    { id: "4", title: "Documentation API", lastMessage: "Endpoints disponibles...", time: "Hier" },
+import { useState } from "react"
+import { MessageSquare, Search, Filter, History, Settings, X, ChevronDown } from "lucide-react"
+import { Input } from "./ui/InputChat"
+import { Button } from "./ui/button"
+
+interface Conversation {
+  id: string
+  title: string
+  messages: any[]
+}
+
+interface Assistant {
+  id: string
+  name: string
+  description: string
+  icon: string
+}
+
+interface SidebarProps {
+  onNewChat: () => void
+  conversations: Conversation[]
+  activeConversationId: string
+  onSelectConversation: (id: string) => void
+  selectedAssistant?: Assistant
+  onSelectAssistant?: (assistant: Assistant) => void
+}
+
+export default function ChatSidebar({
+  onNewChat,
+  conversations,
+  activeConversationId,
+  onSelectConversation,
+  selectedAssistant,
+  onSelectAssistant,
+}: SidebarProps) {
+  const [searchTerm, setSearchTerm] = useState("")
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isAssistantDropdownOpen, setIsAssistantDropdownOpen] = useState(false)
+
+  const assistants: Assistant[] = [
+    {
+      id: "general",
+      name: "Assistant Général",
+      description: "Assistant polyvalent pour toutes vos questions",
+      icon: "🤖",
+    },
+    {
+      id: "it-copilot",
+      name: "IT Copilot",
+      description: "Spécialisé en développement et technologies",
+      icon: "💻",
+    },
+    {
+      id: "design-assistant",
+      name: "Design Assistant",
+      description: "Expert en design UI/UX et créativité",
+      icon: "🎨",
+    },
+    {
+      id: "business-advisor",
+      name: "Business Advisor",
+      description: "Conseils en stratégie et gestion d'entreprise",
+      icon: "📊",
+    },
+    {
+      id: "content-writer",
+      name: "Content Writer",
+      description: "Rédaction et création de contenu",
+      icon: "✍️",
+    },
+  ]
+
+  const currentAssistant = selectedAssistant || assistants[0]
+
+  const filteredConversations = conversations.filter(
+    (conv) =>
+      conv.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      conv.messages.some((msg) => msg.content.toLowerCase().includes(searchTerm.toLowerCase())),
+  )
+
+  const menuItems = [
+    {
+      icon: Search,
+      label: "Rechercher",
+      onClick: () => setIsSearchOpen(!isSearchOpen),
+    },
+    { icon: Filter, label: "Filtres" },
+    { icon: History, label: "Historique" },
+    { icon: Settings, label: "Paramètres" },
   ]
 
   return (
-    <div className="h-full bg-sidebar border-r border-sidebar-border flex flex-col">
+    <div className="w-full h-screen bg-background border-r border-border flex flex-col">
       {/* Header */}
-      <div className="p-4 border-b border-sidebar-border">
-        <Button className="w-full justify-start gap-2 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-accent">
-          <Plus className="h-4 w-4" />
-          Nouvelle conversation
-        </Button>
-      </div>
-
-      {/* Search */}
-      <div className="p-4 border-b border-sidebar-border">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-sidebar-foreground/60" />
-          <Input
-            placeholder="Rechercher dans les conversations..."
-            className="pl-10 bg-sidebar-accent border-sidebar-border text-sidebar-foreground placeholder:text-sidebar-foreground/60"
-          />
+      <div className="p-6 border-b border-border">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <MessageSquare className="w-4 h-4 text-primary-foreground" />
+          </div>
+          <h1 className="font-semibold text-foreground">Prosperify</h1>
         </div>
-      </div>
 
-      {/* Filters */}
-      <div className="p-4 border-b border-sidebar-border">
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="flex-1 text-xs bg-transparent">
-            <Filter className="h-3 w-3 mr-1" />
-            Filtres
-          </Button>
-          <Button  variant="outline" size="sm" className="flex-1 text-xs bg-transparent">
-            <Clock className="h-3 w-3 mr-1" />
-            Récent
-          </Button>
-        </div>
-      </div>
-
-      {/* Recent Conversations */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="p-4">
-          <h3 className="text-sm font-medium text-sidebar-foreground/80 mb-3">Conversations récentes</h3>
-          <div className="space-y-2">
-            {recentChats.map((chat) => (
-              <div
-                key={chat.id}
-                className="p-3 rounded-lg hover:bg-sidebar-accent cursor-pointer transition-colors group"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="p-1.5 rounded bg-sidebar-primary/10 bg-orange-200">
-                    <MessageSquare className="h-3 w-3 text-sidebar-primary " />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="text-sm font-medium text-sidebar-foreground truncate">{chat.title}</h4>
-                    <p className="text-xs text-sidebar-foreground/60 truncate mt-1">{chat.lastMessage}</p>
-                    <span className="text-xs text-sidebar-foreground/40 mt-1 block">{chat.time}</span>
-                  </div>
+        <div className="mb-4 relative">
+          <button
+            onClick={() => setIsAssistantDropdownOpen(!isAssistantDropdownOpen)}
+            className="w-full flex items-center justify-between gap-2 px-3 py-3 text-sm bg-muted rounded-lg hover:bg-accent transition-colors"
+          >
+            <div className="flex items-center gap-2 min-w-0 flex-1">
+              <span className="text-lg flex-shrink-0">{currentAssistant.icon}</span>
+              <div className="text-left min-w-0 flex-1">
+                <div className="font-medium text-foreground truncate">{currentAssistant.name}</div>
+                <div className="text-xs text-muted-foreground truncate hidden sm:block">
+                  {currentAssistant.description}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+            <ChevronDown
+              className={`w-4 h-4 text-muted-foreground transition-transform flex-shrink-0 ${isAssistantDropdownOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {isAssistantDropdownOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+              {assistants.map((assistant) => (
+                <button
+                  key={assistant.id}
+                  onClick={() => {
+                    onSelectAssistant?.(assistant)
+                    setIsAssistantDropdownOpen(false)
+                  }}
+                  className={`w-full flex items-center gap-2 px-3 py-3 text-sm hover:bg-accent transition-colors ${
+                    currentAssistant.id === assistant.id ? "bg-accent text-accent-foreground" : "text-foreground"
+                  }`}
+                >
+                  <span className="text-lg flex-shrink-0">{assistant.icon}</span>
+                  <div className="text-left flex-1 min-w-0">
+                    <div className="font-medium truncate">{assistant.name}</div>
+                    <div className="text-xs text-muted-foreground truncate hidden sm:block">
+                      {assistant.description}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
+
+        <button
+          onClick={onNewChat}
+          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground bg-muted rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          <MessageSquare className="w-4 h-4" />
+          Nouvelle conversation
+        </button>
       </div>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-sidebar-border">
-        <div className="flex items-center gap-2 text-xs text-sidebar-foreground/60">
-          <FileText className="h-3 w-3" />
-          <span>4 documents indexés</span>
+      {isSearchOpen && (
+        <div className="p-4 border-b border-border bg-muted/30">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Rechercher dans les conversations..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 pr-10"
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchTerm("")
+                setIsSearchOpen(false)
+              }}
+              className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+            >
+              <X className="h-3 w-3" />
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Menu */}
+      <div className="flex-1 p-6 space-y-8 overflow-y-auto">
+        <div className="space-y-2">
+          {menuItems.map((item) => (
+            <button
+              key={item.label}
+              onClick={item.onClick}
+              className="w-full flex items-center gap-3 px-4 py-3 text-sm text-muted-foreground rounded-lg hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <item.icon className="w-4 h-4" />
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <div>
+          <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
+            Conversations {searchTerm && `(${filteredConversations.length})`}
+          </h3>
+          <div className="space-y-1">
+            {filteredConversations.map((conversation) => (
+              <button
+                key={conversation.id}
+                onClick={() => onSelectConversation(conversation.id)}
+                className={`w-full text-left px-4 py-3 text-sm rounded-lg transition-colors truncate ${
+                  conversation.id === activeConversationId
+                    ? "bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                }`}
+              >
+                {conversation.title}
+                {searchTerm && (
+                  <div className="text-xs text-muted-foreground mt-1 truncate">
+                    {conversation.messages.length} messages
+                  </div>
+                )}
+              </button>
+            ))}
+            {filteredConversations.length === 0 && searchTerm && (
+              <div className="text-center py-8 text-muted-foreground text-sm">Aucune conversation trouvée</div>
+            )}
+          </div>
         </div>
       </div>
     </div>

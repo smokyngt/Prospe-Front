@@ -1,11 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { ChatSidebar } from "./chat-sidebar"
+import ChatSidebar from "./chat-sidebar"
 import { ChatMessages } from "./chat-messages"
-import { ChatInput } from "./chat-input"
-import { Button } from "./ui/buttonChat"
-import { Menu } from "lucide-react"
+import { EnhancedChatInput } from "./enhanced-chat-input"
+import { Button } from "./ui/button"
+import { Menu, PanelRightClose, PanelRightOpen } from "lucide-react"
 
 interface Message {
   id: string
@@ -19,8 +19,12 @@ interface Message {
   }
 }
 
-export function ChatInterface() {
-  
+interface ChatInterfaceProps {
+  onTogglePdfViewer: () => void
+  isPdfViewerCollapsed: boolean
+}
+
+export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
@@ -31,6 +35,13 @@ export function ChatInterface() {
     },
   ])
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [conversations, setConversations] = useState([
+    { id: "1", title: "Contrat Verdi 2021", messages: [...messages] },
+    { id: "2", title: "Budget Q4", messages: [] },
+    { id: "3", title: "Procédures RH", messages: [] },
+    { id: "4", title: "Rapport mensuel", messages: [] },
+  ])
+  const [activeConversationId, setActiveConversationId] = useState("1")
 
   const handleSendMessage = (content: string) => {
     const userMessage: Message = {
@@ -43,7 +54,7 @@ export function ChatInterface() {
     const assistantMessage: Message = {
       id: (Date.now() + 1).toString(),
       type: "assistant",
-      content: `D'après le document "Contrat_Verdi_2021.pdf", page 3, je trouve les informations suivantes : "${content.slice(0, 50)}..." Cette information se trouve dans la section des clauses générales.`,
+      content: `D'après le document "Contrat_Verdi_2021.pdf", page 3, je trouve les informations suivantes : "${content.slice(0, 50)}..." Cette information se trouve dans la section des clauses générales. [1]`,
       timestamp: new Date(),
       pdfReference: {
         filename: "Contrat_Verdi_2021.pdf",
@@ -52,14 +63,52 @@ export function ChatInterface() {
       },
     }
 
-    setMessages((prev) => [...prev, userMessage, assistantMessage])
+    const newMessages = [...messages, userMessage, assistantMessage]
+    setMessages(newMessages)
+
+    setConversations((prev) =>
+      prev.map((conv) => (conv.id === activeConversationId ? { ...conv, messages: newMessages } : conv)),
+    )
+  }
+
+  const handleNewChat = () => {
+    const newConversation = {
+      id: Date.now().toString(),
+      title: `Nouvelle conversation ${conversations.length + 1}`,
+      messages: [
+        {
+          id: "1",
+          type: "assistant" as const,
+          content:
+            "Bonjour ! Je peux vous aider à rechercher dans vos documents PDF indexés. Posez-moi une question sur vos documents.",
+          timestamp: new Date(),
+        },
+      ],
+    }
+
+    setConversations((prev) => [newConversation, ...prev])
+    setActiveConversationId(newConversation.id)
+    setMessages(newConversation.messages)
+  }
+
+  const handleSelectConversation = (conversationId: string) => {
+    const conversation = conversations.find((c) => c.id === conversationId)
+    if (conversation) {
+      setActiveConversationId(conversationId)
+      setMessages(conversation.messages)
+    }
   }
 
   return (
     <div className="h-full flex ">
       {/* Sidebar */}
       <div className={`transition-all duration-300 ${isSidebarOpen ? "w-80" : "w-0 overflow-hidden"}`}>
-        <ChatSidebar />
+        <ChatSidebar
+          onNewChat={handleNewChat}
+          conversations={conversations}
+          activeConversationId={activeConversationId}
+          onSelectConversation={handleSelectConversation}
+        />
       </div>
 
       {/* Main Chat Area */}
@@ -72,6 +121,16 @@ export function ChatInterface() {
             </Button>
             <h1 className="font-semibold text-card-foreground">Assistant IA - Documents</h1>
           </div>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onTogglePdfViewer}
+            className="h-8 w-8 p-0"
+            title={isPdfViewerCollapsed ? "Afficher le PDF" : "Masquer le PDF"}
+          >
+            {isPdfViewerCollapsed ? <PanelRightOpen className="h-4 w-4" /> : <PanelRightClose className="h-4 w-4" />}
+          </Button>
         </div>
 
         {/* Messages */}
@@ -81,7 +140,7 @@ export function ChatInterface() {
 
         {/* Input */}
         <div className="border-t bg-card p-4">
-          <ChatInput onSendMessage={handleSendMessage} />
+          <EnhancedChatInput onSendMessage={handleSendMessage} />
         </div>
       </div>
     </div>

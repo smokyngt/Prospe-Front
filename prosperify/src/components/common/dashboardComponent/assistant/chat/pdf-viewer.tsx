@@ -1,7 +1,7 @@
 "use client"
 
-import { SetStateAction, useState } from "react"
-import { Button } from "./ui/buttonChat"
+import { type SetStateAction, useState } from "react"
+import { Button } from "./ui/button"
 import { Input } from "./ui/InputChat"
 import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen } from "lucide-react"
 
@@ -26,14 +26,14 @@ export function PdfViewer() {
             <button
               key={doc.id}
               className={`px-4 py-2 text-sm whitespace-nowrap border-b-2 transition-colors ${
-              doc.active
-                ? "border-accent text-orange-500 bg-transparent"
-                : "border-transparent text-muted-foreground text-black hover:text-foreground hover:bg-orange-50"
+                doc.active
+                  ? "border-accent text-orange-500 bg-transparent"
+                  : "border-transparent text-muted-foreground text-black hover:text-foreground hover:bg-orange-50"
               }`}
             >
               <div className="flex items-center gap-2">
-              <BookOpen className="h-3 w-3" />
-              {doc.name}
+                <BookOpen className="h-3 w-3" />
+                {doc.name}
               </div>
             </button>
           ))}

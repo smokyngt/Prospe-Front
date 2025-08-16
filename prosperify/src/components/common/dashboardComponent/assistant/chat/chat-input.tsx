@@ -2,9 +2,9 @@
 
 import type React from "react"
 import { useState } from "react"
-import { Button } from "./ui/buttonChat"
+import { Button } from "./ui/button"
 import { Textarea } from "./ui/textareaChat"
-import { Send, Paperclip, Mic } from "lucide-react"
+import { Send, Paperclip } from "lucide-react"
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void
@@ -43,29 +43,15 @@ export function ChatInput({ onSendMessage }: ChatInputProps) {
             <Paperclip className="h-4 w-4" />
           </Button>
           <Button
-          type="submit"
-          disabled={!message.trim()}
-          className="bg-accent hover:bg-accent/90 text-accent-foreground"
-        >
-          <Send className="h-4 w-4 mr-2" />
-          Envoyer
-        </Button>
+            type="submit"
+            disabled={!message.trim()}
+            className="bg-accent hover:bg-accent/90 text-accent-foreground"
+          >
+            <Send className="h-4 w-4 mr-2" />
+            Envoyer
+          </Button>
         </div>
       </div>
-
-      {/* <div className="flex justify-between items-center">
-        <p className="text-xs text-muted-foreground">
-          Appuyez sur Entrée pour envoyer, Maj+Entrée pour une nouvelle ligne
-        </p>
-        <Button
-          type="submit"
-          disabled={!message.trim()}
-          className="bg-accent hover:bg-accent/90 text-accent-foreground"
-        >
-          <Send className="h-4 w-4 mr-2" />
-          Envoyer
-        </Button>
-      </div> */}
     </form>
   )
 }

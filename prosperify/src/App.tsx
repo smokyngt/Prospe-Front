@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { Router, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './Pages/home';
 import type { IStaticMethods } from 'preline/preline';
 import 'preline';
@@ -10,7 +10,7 @@ import DashboardAssistant from './Pages/dashboard/assistant/dashboard/dashboard.
 import Sources from './Pages/dashboard/assistant/sources/sources.assistant';
 import Export from './Pages/dashboard/assistant/export/export.assistant';
 import SettingsAssistant from './Pages/dashboard/assistant/settings/settings.assistant';
-import Playground from './Pages/playground';
+import Playground from './Pages/dashboard/assistant/playground';
 import DashboardUser from './Pages/dashboard/user/dashboard.user';
 import DashboardOrga from './Pages/dashboard/organization/dashboard.orga';
 
@@ -31,7 +31,7 @@ declare global {
   }
 }
 
-const AppRoutes: React.FC = () => {
+const App: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
@@ -75,10 +75,5 @@ const AppRoutes: React.FC = () => {
   );
 };
 
-const App: React.FC = () => (
-  <Router>
-    <AppRoutes />
-  </Router>
-);
 
 export default App;

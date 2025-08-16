@@ -1,6 +1,7 @@
 "use client"
-import { Button } from "./ui/buttonChat"
+import { Button } from "./ui/button"
 import { FileText, ExternalLink } from "lucide-react"
+import { InlineCitationText } from "./features/inline-citation-text"
 
 interface Message {
   id: string
@@ -44,7 +45,9 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
                   : "bg-card text-card-foreground border"
               }`}
             >
-              <p className="text-sm leading-relaxed">{message.content}</p>
+              <div className="text-sm leading-relaxed">
+                <InlineCitationText text={message.content} />
+              </div>
 
               {message.pdfReference && (
                 <div className="mt-3 p-3 bg-muted rounded-lg border-l-4 border-accent">
