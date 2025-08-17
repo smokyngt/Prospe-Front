@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import SidebarAssistant from '../../../../components/common/dashboardComponent/assistant/sidebar.assistant'
 // import UsageAssistant from '../../../../components/common/dashboardComponent/assistant/usage.assistant'
-import AlertError from '../../../../components/common/base/Alert/alertError'
 import Charts from '../../../../components/common/dashboardComponent/assistant/chart.assistant'
+import DashboardLayout from '@/components/common/layouts/DashboardLayout'
 
 const DashboardAssistant: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
@@ -14,21 +14,16 @@ const DashboardAssistant: React.FC = () => {
   }
 
   return (
-    <>
-      <SidebarAssistant title={'Dashboard'} />
-      <div className="w-full lg:ps-64">
-        <div className="sm:p-6 space-y-4 sm:spa ce-y-6">
-          {error && (
-            <div className="fixed top-4 right-4 z-50">
-              <AlertError message={error} onClose={() => setError(null)} description={''} />
-            </div>
-          )}
-          {/* <UsageAssistant /> */}
-          <Charts /> 
-          <button onClick={simulateError} className="mt-4 py-2 px-4 bg-red-600 text-white rounded">Simulate Error</button>
-        </div>
-      </div>
-    </>
+    <DashboardLayout
+      sidebar={<SidebarAssistant title={'Dashboard'} />}
+      paddingClassName="sm:p-6 space-y-4"
+      error={error}
+      onCloseError={() => setError(null)}
+    >
+      {/* <UsageAssistant /> */}
+      <Charts />
+      <button onClick={simulateError} className="mt-4 py-2 px-4 bg-red-600 text-white rounded">Simulate Error</button>
+    </DashboardLayout>
   )
 }
 

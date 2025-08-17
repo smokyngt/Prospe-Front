@@ -1,14 +1,74 @@
+// eslint.config.js
 import globals from "globals";
-import pluginJs from "@eslint/js";
+import js from "@eslint/js";
 import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
+import react from "eslint-plugin-react";
+import reactHooks from "eslint-plugin-react-hooks";
 
-
-/** @type {import('eslint').Linter.Config[]} */
+/** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
-  {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
-  {languageOptions: { globals: globals.browser }},
-  pluginJs.configs.recommended,
+  // Fichiers à prendre en compte + ignores
+  {
+    files: ["**/*.{js,mjs,cjs,ts,tsx,jsx}"],
+    ignores: [
+      "**/dist/**",
+      "**/build/**",
+      "**/.next/**",
+      "**/coverage/**",
+      "**/node_modules/**"
+    ],
+  },
+
+  // JS de base
+  js.configs.recommended,
+
+  // TypeScript (sans et AVEC type information)
+  // recommended-type-checked active les règles qui ont besoin des types
   ...tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  ...tseslint.configs.recommendedTypeChecked.map(cfg => ({
+    ...cfg,
+    languageOptions: {
+      ...cfg.languageOptions,
+      parserOptions: {
+        // ⚠️ IMPORTANT : dites à ESLint comment récupérer les types
+        // - project: true => auto-détecte tsconfig.* à la racine
+        //   (ou remplace par: project: ["./tsconfig.json", "./tsconfig.eslint.json"])
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  })),
+
+  // React + Hooks
+  react.configs.flat.recommended,
+  {
+    plugins: { "react-hooks": reactHooks },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+    },
+    settings: {
+      react: { version: "detect" }, // auto-détection
+    },
+  },
+
+  // Contexte global du navigateur
+  { languageOptions: { globals: globals.browser } },
+
+  // Règles supplémentaires utiles pour “mieux typer”
+  {
+    rules: {
+      // Encourage l’API moderne JSX
+      "react/react-in-jsx-scope": "off",
+
+      // Typage plus strict côté TS
+      "@typescript-eslint/explicit-function-return-type": "warn",
+      "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+      "@typescript-eslint/no-unsafe-argument": "warn",
+      "@typescript-eslint/no-unsafe-assignment": "warn",
+      "@typescript-eslint/no-unsafe-call": "warn",
+      "@typescript-eslint/no-unsafe-member-access": "warn",
+      "@typescript-eslint/restrict-template-expressions": ["warn", { allowNumber: true, allowBoolean: true }],
+      "@typescript-eslint/no-misused-promises": ["error", { checksVoidReturn: { attributes: false } }],
+    },
+  },
 ];

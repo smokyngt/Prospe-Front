@@ -4,8 +4,6 @@ import Home from './Pages/home';
 import type { IStaticMethods } from 'preline/preline';
 import 'preline';
 
-import Dashboard from './Pages/dashboard/user/dashboard.user';
-import Settings from './Pages/dashboard/user/settings/settings.user';
 import DashboardAssistant from './Pages/dashboard/assistant/dashboard/dashboard.assistant';
 import Sources from './Pages/dashboard/assistant/sources/sources.assistant';
 import Export from './Pages/dashboard/assistant/export/export.assistant';
@@ -43,10 +41,12 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
 
-        {/* User Dashboard */}
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/settings-user" element={<SettingsUser />} />
-        <Route path="/settings" element={<Settings />} />
+        {/* User Dashboard (nested) */}
+        <Route path="/dashboard-user" element={<DashboardUser />}>
+          <Route path="settings-user" element={<SettingsUser />} />
+          <Route path="stats" element={<div>Stats</div>} />
+        </Route>
+        
 
         {/* Assistant */}
         <Route path="/assistant/:id/" element={<DashboardAssistant />} />
@@ -55,8 +55,7 @@ const App: React.FC = () => {
         <Route path="/assistant/:id/sources" element={<Sources />} />
         <Route path="/assistant/:id/playground" element={<Playground />} />
 
-        {/* Dashboard User */}
-        <Route path="/dashboard-user" element={<DashboardUser />} />
+       
 
         {/* Dashboard Orga layout + nested routes */}
         <Route path="/dashboard-orga" element={<DashboardOrga />}>

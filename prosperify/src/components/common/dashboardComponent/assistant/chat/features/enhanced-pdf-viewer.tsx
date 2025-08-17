@@ -16,7 +16,7 @@ export function EnhancedPdfViewer() {
   const [highlightedArea, setHighlightedArea] = useState<{
     page: number
     bbox?: { x: number; y: number; width: number; height: number }
-    text?: string
+    text?: string | undefined
   } | null>(null)
   const viewerRef = useRef<HTMLDivElement>(null)
 

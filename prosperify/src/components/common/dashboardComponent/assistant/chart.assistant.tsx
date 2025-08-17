@@ -104,12 +104,12 @@ const Charts: React.FC = () => {
           },
           formatter: (title: string) => {
             let t = title
-
             if (t) {
               const newT = t.split(' ')
-              t = `${newT[0]} ${newT[1].slice(0, 3)}`
+              const part1 = newT[0] ?? ''
+              const part2 = (newT[1] ?? '').slice(0, 3)
+              t = `${part1} ${part2}`.trim()
             }
-
             return t
           }
         }

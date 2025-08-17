@@ -49,7 +49,6 @@ const TableUsers: React.FC = () => {
   return (
     <>
         <div className="p-4 bg-white ">
-        <div className="p-4 rounded-lg w-full"></div>
       <div className="bg-white w-full">
         <h2 className="text-base font-semibold mb-2 font-sans">Users</h2>
         <p className="text-sm text-gray-600 mb-4">View all the users in your system. You can manage their roles and statuses individually.</p>
