@@ -1,14 +1,11 @@
 import React from 'react'
 import CreateAssistantOrga from '../../../components/common/dashboardComponent/Organization/createAssistant.orga';
 
-const Assistant:React.FC = () => {
+const Assistant: React.FC = () => {
   return (
-        <>
-       <main className="w-full">
-         <CreateAssistantOrga />
-       </main>
-
-        </>
+    <main className="w-full">
+      <CreateAssistantOrga />
+    </main>
   )
 }
 

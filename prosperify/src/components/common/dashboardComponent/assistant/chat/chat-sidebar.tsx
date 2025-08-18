@@ -4,6 +4,7 @@ import { useState } from "react"
 import { MessageSquare, Search, Filter, History, Settings, X, ChevronDown } from "lucide-react"
 import { Input } from "./ui/InputChat"
 import { Button } from "./ui/button"
+import Logo from "@/assets/Asset 1.png"
 
 interface ConversationMessage { content: string }
 interface Conversation {
@@ -96,13 +97,9 @@ export default function ChatSidebar({
     <div className="w-full h-screen bg-background border-r border-border flex flex-col">
       {/* Header */}
       <div className="p-6 border-b border-border">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <MessageSquare className="w-4 h-4 text-primary-foreground" />
-          </div>
-          <h1 className="font-semibold text-foreground">Prosperify</h1>
+        <div className="flex items-center gap-3 mb-6 justify-center">
+             <img src={Logo} alt="Prosperify Logo" className="mb-4 w-auto h-14 " />
         </div>
-
         <div className="mb-4 relative">
           <button
             onClick={() => setIsAssistantDropdownOpen(!isAssistantDropdownOpen)}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import SidebarAssistant from '../../../../components/common/dashboardComponent/assistant/sidebar.assistant';
-import AlertError from '../../../../components/common/base/Alert/alertError';
+import AlertError from '../../../components/common/base/Alert/alertError';
 
 interface Source {
   fileName: string;
@@ -44,19 +43,18 @@ const Sources: React.FC = () => {
     source.fileName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
   return (
-    <>
-      <SidebarAssistant title={'Sources'} />
-      <div className="flex">
-        <div className="w-full p-4 lg:ml-64">
-          <div className="flex flex-col items-center w-full max-w-5xl mx-auto">
-            <div className="p-4 bg-white w-full">
-              <h2 className="text-base font-semibold mb-2 font-sans">Sources</h2>
-              <p className="text-sm text-gray-600 mb-4">
-                View all the sources you have added to your chatbot. You can retrain or delete them individually or in bulk.
-              </p>
-            </div>
+    <div>
+      {/* Main section with padding */}
+      
+      <section className="w-full max-w-6xl  p-4">
+        {/* Header */}
+        <header className="mb-4">
+          <h2 className="text-base font-semibold mb-1 font-sans">Source Files</h2>
+          <p className="text-sm text-gray-600">
+            View and manage all your assistant's source files and knowledge base documents.
+          </p>
+        </header>
             {error && (
               <div className="fixed top-4 right-4 z-50">
                 <AlertError message={error} onClose={() => setError(null)} description={''} />
@@ -131,10 +129,9 @@ const Sources: React.FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
+
+      </section>
+    </div>
   );
 };
 

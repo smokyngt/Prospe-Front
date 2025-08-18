@@ -3,9 +3,9 @@ import RoleManagementTable from '../../../components/common/dashboardComponent/O
 
 const Role: React.FC = () => {
   return (
-    <main className="w-full">
-      <RoleManagementTable />
-    </main>
+   <main className="w-full">
+     <RoleManagementTable />
+   </main>
   )
 }
 

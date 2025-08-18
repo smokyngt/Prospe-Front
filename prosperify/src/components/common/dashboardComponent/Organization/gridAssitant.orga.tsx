@@ -43,9 +43,15 @@ const GridAssistantOrganization: React.FC = () => {
   }, [searchQuery, assistants]);
 
   return (
-    <div className="flex flex-col items-center w-full px-4">
-      {/* Conteneur pour aligner la SearchBar et la Grid */}
-      <div className="w-full max-w-6xl flex justify-between items-center mb-6">
+    <div>
+      <div className="p-4 bg-white">
+        <h2 className="text-base font-semibold mb-2">Dashboard</h2>
+        <p className="text-sm text-custom-gray-dark mb-4">View all the assistants in your organization. You can manage their settings and create new ones.</p>
+      </div>
+      
+      <div className="p-4">
+        {/* Conteneur pour aligner la SearchBar et la Grid */}
+        <div className="flex justify-between items-center mb-6">
         {/* SearchBox avec loupe */}
         <div className="relative w-72">
           <div className="absolute inset-y-0 start-0 flex items-center pointer-events-none ps-3.5">
@@ -76,7 +82,7 @@ const GridAssistantOrganization: React.FC = () => {
       </div>
 
       {/* Grille des assistants */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-3/4">
         {filteredAssistants.length > 0 ? (
           filteredAssistants.map((assistant) => (
             <Link
@@ -104,6 +110,7 @@ const GridAssistantOrganization: React.FC = () => {
           <p className="text-gray-500 text-sm">Aucun assistant trouvé.</p>
         )}
       </div>
+    </div>
     </div>
   );
 };

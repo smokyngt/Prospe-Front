@@ -19,7 +19,7 @@ const InviteModal: React.FC = () => {
   }
 
   return (
-    <div className="w-full max-w-lg mx-auto p-4 bg-white rounded-lg ">
+    <div className="max-w-lg mx-auto p-4 bg-white rounded-lg w-1/2 ">
       {/* Invite input */}
       <p className="text-gray-500 mb-4">
               This name will be used to identify your organization across your platform.

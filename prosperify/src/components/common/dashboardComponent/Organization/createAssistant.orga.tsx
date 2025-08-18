@@ -45,13 +45,13 @@ const CreateAssistantOrga: React.FC = () => {
 
   return (
     <>
-      <section className="w-full max-w-6xl mx-auto">
+      <section className="w-full max-w-6xl p-4 ">
         <div className="bg-white  rounded-xl shadow-2xs overflow-hidden dark:bg-neutral-900 dark:border-neutral-700">
           {/* Header/Toolbar (même layout que précédents) */}
            <header className="mb-4">
-          <h2 className="text-base font-semibold mb-1 font-sans">Users</h2>
+          <h2 className="text-base font-semibold mb-1 font-sans">Create Assistant</h2>
           <p className="text-sm text-gray-600">
-            View all the users in your system. You can manage their roles and statuses individually.
+            Create and manage your AI assistants to optimize your workflow.
           </p>
         </header>
 

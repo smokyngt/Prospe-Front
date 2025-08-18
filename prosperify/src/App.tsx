@@ -4,17 +4,17 @@ import Home from './Pages/home';
 import type { IStaticMethods } from 'preline/preline';
 import 'preline';
 
-import DashboardAssistant from './Pages/dashboard/assistant/dashboard/dashboard.assistant';
-import Sources from './Pages/dashboard/assistant/sources/sources.assistant';
-import Export from './Pages/dashboard/assistant/export/export.assistant';
-import SettingsAssistant from './Pages/dashboard/assistant/settings/settings.assistant';
+import DashboardAssistant from './Pages/dashboard/assistant/dashboard.assistant';
+import IndexAssistant from './Pages/dashboard/assistant/index.assistant';
+import Sources from './Pages/dashboard/assistant/sources.assistant';
+import Export from './Pages/dashboard/assistant/export.assistant';
+import SettingsAssistant from './Pages/dashboard/assistant/settings.assistant';
 import Playground from './Pages/dashboard/assistant/playground';
 import DashboardUser from './Pages/dashboard/user/dashboard.user';
 import DashboardOrga from './Pages/dashboard/organization/dashboard.orga';
 
-
 import TableUsers from './components/common/dashboardComponent/Organization/tableUser.orga';
-import Invite from './Pages/dashboard/organization/invite.orga';
+import Invite from './Pages/dashboard/organization/inviteComponent.orga';
 import TableLogs from './components/common/dashboardComponent/Organization/tableLogs.orga';
 import OrganizationInput from './components/common/dashboardComponent/Organization/organizationInput.orga';
 import SettingsUser from './Pages/dashboard/user/settings/settings.user';
@@ -49,15 +49,18 @@ const App: React.FC = () => {
         
 
         {/* Assistant */}
-        <Route path="/assistant/:id/" element={<DashboardAssistant />} />
-        <Route path="/assistant/:id/settings" element={<SettingsAssistant />} />
-        <Route path="/assistant/:id/export" element={<Export />} />
-        <Route path="/assistant/:id/sources" element={<Sources />} />
+        <Route path="/assistant/:id/" element={<DashboardAssistant />}>
+          <Route index element={<IndexAssistant />} />
+          <Route path="settings" element={<SettingsAssistant />} />
+          <Route path="export" element={<Export />} />
+          <Route path="sources" element={<Sources />} />
+        </Route>
+
+        {/* Chat/Playground - Route séparée avec sa propre interface */}
         <Route path="/assistant/:id/playground" element={<Playground />} />
+    
 
-       
-
-        {/* Dashboard Orga layout + nested routes */}
+      {/* Dashboard Orga layout + nested routes */}
         <Route path="/dashboard-orga" element={<DashboardOrga />}>
           <Route index element={<GridAssistantOrganization />} />
           <Route path="create-assistant" element={<CreateAssistantOrga />} />

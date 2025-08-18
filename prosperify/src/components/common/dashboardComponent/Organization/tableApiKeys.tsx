@@ -38,7 +38,7 @@ const TableApiKeys: React.FC = () => {
   return (
     <> 
 
-        <section className="w-full max-w-6xl mx-auto">
+        <section className="w-full max-w-6xl p-4 ">
         {/* Header */}
         <header className="mb-4">
           <h2 className="text-base font-semibold mb-1 font-sans">Users</h2>
