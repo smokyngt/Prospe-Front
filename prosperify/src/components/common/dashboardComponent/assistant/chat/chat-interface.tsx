@@ -42,6 +42,7 @@ export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatI
     { id: "4", title: "Rapport mensuel", messages: [] },
   ])
   const [activeConversationId, setActiveConversationId] = useState("1")
+  const [isAssistantTyping, setIsAssistantTyping] = useState(false)
 
   const handleSendMessage = (content: string) => {
     const userMessage: Message = {
@@ -51,24 +52,29 @@ export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatI
       timestamp: new Date(),
     }
 
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      type: "assistant",
-      content: `D'après le document "Contrat_Verdi_2021.pdf", page 3, je trouve les informations suivantes : "${content.slice(0, 50)}..." Cette information se trouve dans la section des clauses générales. [1]`,
-      timestamp: new Date(),
-      pdfReference: {
-        filename: "Contrat_Verdi_2021.pdf",
-        page: 3,
-        highlight: content.slice(0, 50),
-      },
-    }
+    // Simulate streaming/typing
+    setIsAssistantTyping(true)
+    const nextMessages = [...messages, userMessage]
+    setMessages(nextMessages)
+    setConversations((prev) => prev.map((conv) => (conv.id === activeConversationId ? { ...conv, messages: nextMessages } : conv)))
 
-    const newMessages = [...messages, userMessage, assistantMessage]
-    setMessages(newMessages)
-
-    setConversations((prev) =>
-      prev.map((conv) => (conv.id === activeConversationId ? { ...conv, messages: newMessages } : conv)),
-    )
+    setTimeout(() => {
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        type: "assistant",
+        content: `D'après le document "Contrat_Verdi_2021.pdf", page 3, je trouve les informations suivantes : "${content.slice(0, 50)}..." Cette information se trouve dans la section des clauses générales. [1]`,
+        timestamp: new Date(),
+        pdfReference: {
+          filename: "Contrat_Verdi_2021.pdf",
+          page: 3,
+          highlight: content.slice(0, 50),
+        },
+      }
+      const finalMessages = [...nextMessages, assistantMessage]
+      setMessages(finalMessages)
+      setConversations((prev) => prev.map((conv) => (conv.id === activeConversationId ? { ...conv, messages: finalMessages } : conv)))
+      setIsAssistantTyping(false)
+    }, 1200)
   }
 
   const handleNewChat = () => {
@@ -135,7 +141,7 @@ export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatI
 
         {/* Messages */}
         <div className="flex-1 overflow-hidden">
-          <ChatMessages messages={messages} />
+          <ChatMessages messages={messages} isAssistantTyping={isAssistantTyping} />
         </div>
 
         {/* Input */}

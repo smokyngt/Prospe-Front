@@ -35,12 +35,14 @@ const Invite: React.FC = () => {
   return (
     <>
  
-      <div className="p-4 bg-white">
-        <div className="p-4 rounded-lg w-2/3">
-          <h2 className="text-base font-semibold mb-2">Manage Roles</h2>
-          <p className="text-sm text-custom-gray-dark mb-4">
-            Manage existing roles and generate invite links for the user.
+      <section className="w-full max-w-6xl mx-auto">
+        {/* Header */}
+        <header className="mb-4">
+          <h2 className="text-base font-semibold mb-1 font-sans">Invites</h2>
+          <p className="text-sm text-gray-600">
+            View the latest invites sent to users.
           </p>
+        </header>
           {error && (
             <div className="fixed top-4 right-4 z-50">
               <AlertError message={error} onClose={() => setError(null)} description={''} />
@@ -84,8 +86,8 @@ const Invite: React.FC = () => {
           <button onClick={simulateError} className="mt-4 py-2 px-4 bg-red-600 text-white rounded">
             Simulate Error
           </button>
-        </div>
-      </div>
+      
+      </section>
     </>
   );
 };

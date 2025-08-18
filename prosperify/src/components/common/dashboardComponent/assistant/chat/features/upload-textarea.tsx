@@ -51,7 +51,7 @@ export function UploadTextarea({ value, onChange, onFiles, placeholder, classNam
 
       if (files.length > 0) {
         e.preventDefault()
-        handleFiles(files)
+  void handleFiles(files)
       }
     },
     [handleFiles],
@@ -86,7 +86,7 @@ export function UploadTextarea({ value, onChange, onFiles, placeholder, classNam
       setIsDragOver(false)
 
       const files = Array.from(e.dataTransfer.files)
-      handleFiles(files)
+  void handleFiles(files)
     },
     [handleFiles],
   )
@@ -94,7 +94,7 @@ export function UploadTextarea({ value, onChange, onFiles, placeholder, classNam
   const handleFileInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = Array.from(e.target.files || [])
-      handleFiles(files)
+  void handleFiles(files)
       if (fileInputRef.current) {
         fileInputRef.current.value = ""
       }

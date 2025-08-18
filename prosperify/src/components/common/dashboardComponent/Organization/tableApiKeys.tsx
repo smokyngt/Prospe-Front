@@ -23,28 +23,37 @@ const initialApiKeys = [
 ]
 
 const TableApiKeys: React.FC = () => {
-  const [apiKeys, setApiKeys] = useState(initialApiKeys)
-  const [currentPage] = useState(1)
-  const apiKeysPerPage = 20
+  const [apiKeys] = useState(initialApiKeys)
+  // Pagination omitted for now; keeping simple static table
+  // const [currentPage] = useState(1)
+  // const apiKeysPerPage = 20
   const [error, setError] = useState<string | null>(null)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm] = useState('')
 
-  const indexOfLast = currentPage * apiKeysPerPage
-  const indexOfFirst = indexOfLast - apiKeysPerPage
-  const filtered = apiKeys.filter(key => key.name.toLowerCase().includes(searchTerm.toLowerCase()))
-  const current = filtered.slice(indexOfFirst, indexOfLast)
+  // const indexOfLast = currentPage * apiKeysPerPage
+  // const indexOfFirst = indexOfLast - apiKeysPerPage
+  // const filtered = apiKeys.filter(key => key.name.toLowerCase().includes(searchTerm.toLowerCase()))
+  // const current = filtered.slice(indexOfFirst, indexOfLast)
 
   return (
     <> 
 
-      
+        <section className="w-full max-w-6xl mx-auto">
+        {/* Header */}
+        <header className="mb-4">
+          <h2 className="text-base font-semibold mb-1 font-sans">Users</h2>
+          <p className="text-sm text-gray-600">
+            View all the users in your system. You can manage their roles and statuses individually.
+          </p>
+        </header>
+
       {error && (
         <div className="fixed top-4 right-4 z-50">
           <AlertError message={error} onClose={() => setError(null)} description={''} />
         </div>
       )}
      
-<div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+
 
   <div className="flex flex-col">
     <div className="-m-1.5 overflow-x-auto">
@@ -627,7 +636,8 @@ const TableApiKeys: React.FC = () => {
     </div>
   </div>
   
-</div>
+
+</section>
 
     </> 
   )

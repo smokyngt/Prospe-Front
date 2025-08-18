@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface Assistant {
   id: string;
@@ -15,7 +16,7 @@ const GridAssistantOrganization: React.FC = () => {
 
   // Simulation d'une API (remplaçable par un fetch réel)
   useEffect(() => {
-    const fetchAssistants = async () => {
+    const fetchAssistants = () => {
       const data: Assistant[] = [
         { id: "it-copilot", name: "IT Copilot", initials: "AC", gradient: "from-blue-400 to-blue-300", color: "bg-blue-600" },
         { id: "design-assistant", name: "Design Assistant", initials: "DA", gradient: "from-yellow-400 to-yellow-300", color: "bg-yellow-500" },
@@ -78,9 +79,9 @@ const GridAssistantOrganization: React.FC = () => {
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
         {filteredAssistants.length > 0 ? (
           filteredAssistants.map((assistant) => (
-            <a
+            <Link
               key={assistant.id}
-              href={`/assistant/${assistant.id}`}
+              to={`/assistant/${assistant.id}/`}
               className="group flex flex-col h-full bg-white border border-gray-200 shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 ease-in-out rounded-xl relative cursor-pointer overflow-hidden"
             >
               {/* Partie colorée avec gradient */}
@@ -97,7 +98,7 @@ const GridAssistantOrganization: React.FC = () => {
               <div className="p-4 pb-10 mt-4">
                 <h3 className="text-lg font-semibold text-black">{assistant.name}</h3>
               </div>
-            </a>
+            </Link>
           ))
         ) : (
           <p className="text-gray-500 text-sm">Aucun assistant trouvé.</p>

@@ -7,16 +7,24 @@ import reactHooks from "eslint-plugin-react-hooks";
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
-  // Fichiers à prendre en compte + ignores
+  // Ignorer les sorties et fichiers de config globaux
   {
-    files: ["**/*.{js,mjs,cjs,ts,tsx,jsx}"],
     ignores: [
       "**/dist/**",
       "**/build/**",
       "**/.next/**",
       "**/coverage/**",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "eslint.config.js",
+      "postcss.config.js",
+      "tailwind.config.js",
+      "vite.config.*",
     ],
+  },
+
+  // Fichiers à prendre en compte
+  {
+    files: ["src/**/*.{ts,tsx,js,jsx}"],
   },
 
   // JS de base
@@ -45,6 +53,8 @@ export default [
     plugins: { "react-hooks": reactHooks },
     rules: {
       ...reactHooks.configs.recommended.rules,
+  // Les prop-types ne sont pas utiles avec TypeScript
+  "react/prop-types": "off",
     },
     settings: {
       react: { version: "detect" }, // auto-détection

@@ -17,9 +17,10 @@ interface Message {
 
 interface ChatMessagesProps {
   messages: Message[]
+  isAssistantTyping?: boolean
 }
 
-export function ChatMessages({ messages }: ChatMessagesProps) {
+export function ChatMessages({ messages, isAssistantTyping = false }: ChatMessagesProps) {
   const handlePdfReference = (reference: Message["pdfReference"]) => {
     if (reference) {
       // Ici on pourrait déclencher l'ouverture du PDF à la page spécifiée
@@ -87,6 +88,25 @@ export function ChatMessages({ messages }: ChatMessagesProps) {
           )}
         </div>
       ))}
+      {isAssistantTyping && (
+        <div className="flex gap-4 justify-start">
+          <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0">
+            <span className="text-accent-foreground text-sm font-medium">IA</span>
+          </div>
+          <div className="max-w-2xl">
+            <div className="p-4 rounded-lg bg-card text-card-foreground border">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="sr-only">Assistant en train d&apos;écrire…</span>
+                <span className="inline-flex items-center gap-2">
+                  <span className="inline-block h-3 w-3 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:0ms]"></span>
+                  <span className="inline-block h-3 w-3 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:150ms]"></span>
+                  <span className="inline-block h-3 w-3 rounded-full bg-muted-foreground/40 animate-bounce [animation-delay:300ms]"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

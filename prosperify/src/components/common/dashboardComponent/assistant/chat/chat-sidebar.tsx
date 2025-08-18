@@ -5,10 +5,11 @@ import { MessageSquare, Search, Filter, History, Settings, X, ChevronDown } from
 import { Input } from "./ui/InputChat"
 import { Button } from "./ui/button"
 
+interface ConversationMessage { content: string }
 interface Conversation {
   id: string
   title: string
-  messages: any[]
+  messages: ConversationMessage[]
 }
 
 interface Assistant {
@@ -74,11 +75,11 @@ export default function ChatSidebar({
 
   const currentAssistant = selectedAssistant || assistants[0]
 
-  const filteredConversations = conversations.filter(
-    (conv) =>
-      conv.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      conv.messages.some((msg) => msg.content.toLowerCase().includes(searchTerm.toLowerCase())),
-  )
+  const filteredConversations = conversations.filter((conv) => {
+    const term = searchTerm.toLowerCase()
+    if (conv.title.toLowerCase().includes(term)) return true
+    return conv.messages.some((msg) => msg.content.toLowerCase().includes(term))
+  })
 
   const menuItems = [
     {

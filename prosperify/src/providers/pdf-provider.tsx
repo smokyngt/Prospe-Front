@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState, useRef, type ReactNode } from "react"
+import React, { createContext, useContext, useState, useRef, useCallback, type ReactNode } from "react"
 import { FuzzySearchEngine, type SearchResult } from "@/lib/fuzzy-search"
 import { eventBus } from "@/lib/event-bus"
 
@@ -53,7 +53,7 @@ export function PdfProvider({ children }: PdfProviderProps) {
   const [currentPage, setCurrentPage] = useState(1)
   const searchEngineRef = useRef(new FuzzySearchEngine())
 
-  const addDocument = async (file: File): Promise<void> => {
+  const addDocument = useCallback(async (file: File): Promise<void> => {
     const id = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
     // Simulation de l'extraction PDF (en réalité, utiliser pdf.js dans un web worker)
@@ -84,39 +84,46 @@ export function PdfProvider({ children }: PdfProviderProps) {
     if (documents.length === 0) {
       setActiveDocumentState(newDocument)
     }
-  }
+  }, [documents])
 
-  const setActiveDocument = (id: string) => {
+  const setActiveDocument = useCallback((id: string) => {
     setDocuments((prev) => prev.map((doc) => ({ ...doc, isActive: doc.id === id })))
     const doc = documents.find((d) => d.id === id)
     if (doc) {
       setActiveDocumentState(doc)
       setCurrentPage(1)
     }
-  }
+  }, [documents])
 
-  const searchInDocuments = (query: string): SearchResult[] => {
+  const searchInDocuments = useCallback((query: string): SearchResult[] => {
     return searchEngineRef.current.search(query, 10)
-  }
+  }, [])
 
-  const goToCitation = (filename: string, page: number, highlight?: string) => {
+  const goToCitation = useCallback((filename: string, page: number, highlight?: string) => {
     const doc = documents.find((d) => d.name === filename)
     if (doc) {
       setActiveDocument(doc.id)
       setCurrentPage(page)
       eventBus.emit("pdf:goToCitation", { filename, page, highlight })
     }
-  }
+  }, [documents, setActiveDocument])
 
   // Écouter les fichiers déposés
   React.useEffect(() => {
     const handleFilesDropped = (files: File[]) => {
-      files.forEach((file) => addDocument(file))
+      // sequentially add to keep ordering predictable
+      ;(async () => {
+        for (const file of files) {
+          await addDocument(file)
+        }
+      })().catch(() => {
+        // swallow errors to avoid unhandled rejections; could surface via UI
+      })
     }
 
     eventBus.on("files:dropped", handleFilesDropped)
     return () => eventBus.off("files:dropped", handleFilesDropped)
-  }, [])
+  }, [addDocument])
 
   return (
     <PdfContext.Provider

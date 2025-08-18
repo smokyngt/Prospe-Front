@@ -25,8 +25,8 @@ export function InlineCitationText({ text, className }: InlineCitationTextProps)
         parts.push(text.slice(lastIndex, match.index))
       }
 
-      // Ajouter la citation
-      parts.push({ type: "citation", tag: match[1] })
+  // Ajouter la citation
+  parts.push({ type: "citation", tag: String(match[1] ?? "") })
       lastIndex = match.index + match[0].length
     }
 

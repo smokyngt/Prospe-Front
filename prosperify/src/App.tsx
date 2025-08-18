@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Router, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from './Pages/home';
 import type { IStaticMethods } from 'preline/preline';
 import 'preline';
@@ -15,13 +15,13 @@ import DashboardOrga from './Pages/dashboard/organization/dashboard.orga';
 
 import TableUsers from './components/common/dashboardComponent/Organization/tableUser.orga';
 import Invite from './Pages/dashboard/organization/invite.orga';
-import TableLogs from './Pages/dashboard/organization/tableLogs.orga';
-import OrganizationInput from './Pages/dashboard/organization/organizationInput.orga';
+import TableLogs from './components/common/dashboardComponent/Organization/tableLogs.orga';
+import OrganizationInput from './components/common/dashboardComponent/Organization/organizationInput.orga';
 import SettingsUser from './Pages/dashboard/user/settings/settings.user';
-import CreateAssistantOrga from './Pages/dashboard/organization/createAssistant.orga';
+import CreateAssistantOrga from './components/common/dashboardComponent/Organization/createAssistant.orga';
 import GridAssistantOrganization from './components/common/dashboardComponent/Organization/gridAssitant.orga';
-import TableApiKeys from './Pages/dashboard/organization/tableApiKeys';
-import RoleManagementTable from './Pages/dashboard/organization/roleManagementTable.orga';
+import ApiKeys from './Pages/dashboard/organization/apiKeys.orga';
+import RoleManagementTable from './components/common/dashboardComponent/Organization/roleManagementTable.orga';
 
 declare global {
   interface Window {
@@ -66,7 +66,7 @@ const App: React.FC = () => {
           <Route path="invite" element={<Invite />} />
           <Route path="logs" element={<TableLogs />} />
           <Route path="organization" element={<OrganizationInput />} />
-          <Route path="apikeys" element={<TableApiKeys /> } />
+          <Route path="apikeys" element={<ApiKeys /> } />
           <Route path="statistics" element={<div>Statistiques</div>} />
           <Route path="members" element={<div>Gestion des Membres</div>} />
         </Route>

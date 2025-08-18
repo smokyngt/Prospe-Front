@@ -40,8 +40,9 @@ export const BaseSidebar: React.FC<BaseSidebarProps> = ({ title, logo, items, fo
   const [isCollapsed, setIsCollapsed] = useState<boolean>(() => {
     try {
       const v = localStorage.getItem('sidebar:collapsed');
-      return v ? JSON.parse(v) : false;
+      return v === 'true';
     } catch {
+      // ignore
       return false;
     }
   });
@@ -55,7 +56,9 @@ export const BaseSidebar: React.FC<BaseSidebarProps> = ({ title, logo, items, fo
   useEffect(() => {
     try {
       localStorage.setItem('sidebar:collapsed', JSON.stringify(isCollapsed));
-    } catch {}
+    } catch {
+      // ignore
+    }
     if (typeof document !== 'undefined') {
       document.body.dataset['sidebarCollapsed'] = String(isCollapsed);
     }

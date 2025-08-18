@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import AlertError from '../../../components/common/base/Alert/alertError'
+import AlertError from '../../base/Alert/alertError'
 const initialLogs = [
   {
     user: 'John Doe',
@@ -40,12 +40,16 @@ const TableLogs: React.FC = () => {
 
   return (
     <>
-     <div className="p-4 bg-white ">
-     <div className="p-4 rounded-lg w-full">
-      <div className="bg-white w-full">
-        <h2 className="text-base font-semibold mb-2 font-sans">Logs</h2>
-        <p className="text-sm text-gray-600 mb-4">View the latest activities of users and which assistant they used.</p>
-      </div>
+    
+      <section className="w-full max-w-6xl mx-auto">
+        {/* Header */}
+        <header className="mb-4">
+          <h2 className="text-base font-semibold mb-1 font-sans">Users</h2>
+          <p className="text-sm text-gray-600">
+            View all the users in your system. You can manage their roles and statuses individually.
+          </p>
+        </header>
+
       {error && (
         <div className="fixed top-4 right-4 z-50">
           <AlertError message={error} onClose={() => setError(null)} description={''} />
@@ -53,7 +57,7 @@ const TableLogs: React.FC = () => {
       )}
       <div className="overflow-x-auto w-full">
         <div className="min-w-full inline-block align-middle w-10/12 max-w-4xl">
-          <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-11/12 mx-auto">
+          <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-11/12 ">
             <div className="px-6 py-4 flex justify-between items-center border-b border-gray-200">
               <div className="relative max-w-sm flex-1 mr-4">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -122,10 +126,11 @@ const TableLogs: React.FC = () => {
           </div>
         </div>
       </div>
-      </div>
-      </div>
+      
+      </section>
     </>
   )
 }
 
-export default TableLogs
+export default TableLogs 
+

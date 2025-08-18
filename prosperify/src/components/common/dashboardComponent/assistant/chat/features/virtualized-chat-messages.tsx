@@ -1,6 +1,6 @@
 "use client"
 
-import { memo } from "react"
+import { memo, type CSSProperties } from "react"
 import { FixedSizeList as List } from "react-window"
 import { Button } from "../ui/button"
 import { FileText, ExternalLink } from "lucide-react"
@@ -23,8 +23,9 @@ interface VirtualizedChatMessagesProps {
   height: number
 }
 
-const MessageItem = memo(({ index, style, data }: { index: number; style: any; data: Message[] }) => {
+const MessageItem = memo(({ index, style, data }: { index: number; style: CSSProperties; data: Message[] }) => {
   const message = data[index]
+  if (!message) return null
 
   const handlePdfReference = (reference: Message["pdfReference"]) => {
     if (reference) {

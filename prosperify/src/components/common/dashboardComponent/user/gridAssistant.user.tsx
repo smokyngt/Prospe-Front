@@ -15,7 +15,7 @@ const GridAssistantUser: React.FC = () => {
 
   // Simulation d'une API (remplaçable par un fetch réel)
   useEffect(() => {
-    const fetchAssistants = async () => {
+    const fetchAssistants = () => {
       const data: Assistant[] = [
         { id: "it-copilot", name: "IT Copilot", initials: "AC", gradient: "from-blue-400 to-blue-300", color: "bg-blue-600" },
         { id: "design-assistant", name: "Design Assistant", initials: "DA", gradient: "from-yellow-400 to-yellow-300", color: "bg-yellow-500" },

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Button } from "../ui/button"
 import { Input } from "../ui/InputChat"
-import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen } from "lucide-react"
+import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen, Loader2 } from "lucide-react"
 import { usePdf } from "@/providers/pdf-provider"
 import { useCitations } from "@/providers/citations-provider"
 import { eventBus } from "@/lib/event-bus"
@@ -16,20 +16,23 @@ export function EnhancedPdfViewer() {
   const [highlightedArea, setHighlightedArea] = useState<{
     page: number
     bbox?: { x: number; y: number; width: number; height: number }
-    text?: string | undefined
+    text?: string
   } | null>(null)
   const viewerRef = useRef<HTMLDivElement>(null)
+  const [isDownloading, setIsDownloading] = useState(false)
+  const [isRendering, setIsRendering] = useState(false)
 
   // Écouter les événements de navigation vers les citations
   useEffect(() => {
-    const handleGoToCitation = (data: { filename: string; page: number; highlight?: string; bbox?: any }) => {
+  const handleGoToCitation = (data: { filename: string; page: number; highlight?: string; bbox?: { x: number; y: number; width: number; height: number } }) => {
       if (activeDocument?.name === data.filename) {
         setCurrentPage(data.page)
-        setHighlightedArea({
+        const next: { page: number; bbox?: { x: number; y: number; width: number; height: number }; text?: string } = {
           page: data.page,
-          bbox: data.bbox,
-          text: data.highlight,
-        })
+        }
+        if (data.bbox) next.bbox = data.bbox
+        if (typeof data.highlight === "string") next.text = data.highlight
+        setHighlightedArea(next)
 
         // Retirer le highlight après 3 secondes
         setTimeout(() => setHighlightedArea(null), 3000)
@@ -43,12 +46,14 @@ export function EnhancedPdfViewer() {
   const handleDocumentSwitch = useCallback(
     (docId: string) => {
       setActiveDocument(docId)
+      setIsRendering(true)
+      setTimeout(() => setIsRendering(false), 400)
     },
     [setActiveDocument],
   )
 
   const getCitationMarkersForPage = (pageNumber: number) => {
-    return Object.entries(citations).filter(([_, citation]) => citation.page === pageNumber)
+    return Object.entries(citations).filter(([, citation]) => citation.page === pageNumber)
   }
 
   if (!activeDocument) {
@@ -67,7 +72,7 @@ export function EnhancedPdfViewer() {
     <div className="h-full flex flex-col bg-card">
       {/* Document Tabs */}
       <div className="border-b border-border bg-muted/30">
-        <div className="flex overflow-x-auto">
+        <div className="flex overflow-x-auto items-center gap-2 px-2">
           {documents.map((doc) => (
             <button
               key={doc.id}
@@ -84,6 +89,11 @@ export function EnhancedPdfViewer() {
               </div>
             </button>
           ))}
+          {documents.length > 0 && isRendering && (
+            <span className="ml-auto inline-flex items-center gap-2 text-xs text-muted-foreground">
+              <Loader2 className="h-3 w-3 animate-spin" /> Rendu...
+            </span>
+          )}
         </div>
       </div>
 
@@ -101,8 +111,17 @@ export function EnhancedPdfViewer() {
           <Button variant="outline" size="sm">
             <RotateCw className="h-3 w-3" />
           </Button>
-          <Button variant="outline" size="sm">
-            <Download className="h-3 w-3" />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setIsDownloading(true)
+              setTimeout(() => setIsDownloading(false), 1200)
+            }}
+            disabled={isDownloading}
+            title={isDownloading ? "Téléchargement…" : "Télécharger"}
+          >
+            {isDownloading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Download className="h-3 w-3" />}
           </Button>
         </div>
 
@@ -154,6 +173,13 @@ export function EnhancedPdfViewer() {
               height: `${(842 * zoom) / 100}px`,
             }}
           >
+            {isRendering && (
+              <div className="absolute inset-0 bg-white/70 backdrop-blur-[1px] z-10 flex items-center justify-center">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" /> Rendu de la page…
+                </div>
+              </div>
+            )}
             <div className="p-8 h-full">
               <div className="space-y-4">
                 <h1 className="text-2xl font-bold text-gray-900">{activeDocument.name.replace(".pdf", "")}</h1>
@@ -163,48 +189,11 @@ export function EnhancedPdfViewer() {
                     {highlightedArea?.page === currentPage && highlightedArea.text ? (
                       <span className="bg-yellow-200 px-1 animate-pulse">{highlightedArea.text}</span>
                     ) : (
-                      <span className="bg-yellow-200 px-1">
-                        Le présent contrat définit les modalités de collaboration
-                      </span>
+                      <span className="bg-yellow-200 px-1">Le présent contrat définit les modalités de collaboration</span>
                     )}{" "}
                     entre les parties pour la réalisation des prestations définies en annexe. Les clauses générales
-                    s'appliquent à l'ensemble des services fournis dans le cadre de cet accord.
-                    {getCitationMarkersForPage(currentPage).map(([citationId, citation]) => (
-                      <sup key={citationId} className="ml-1">
-                        <span
-                          className={`inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full border-2 transition-all duration-300 ${
-                            highlightedCitation === citationId
-                              ? "bg-primary text-primary-foreground border-primary shadow-lg scale-110"
-                              : "bg-accent text-accent-foreground border-accent hover:bg-primary/20 hover:border-primary"
-                          }`}
-                        >
-                          [{citationId}]
-                        </span>
-                      </sup>
-                    ))}
-                  </p>
-                  <p className="text-sm leading-relaxed">
-                    Article {currentPage} - Objet du contrat : La société s'engage à fournir les services de conseil et
-                    d'accompagnement technique selon les spécifications détaillées dans le cahier des charges annexé au
-                    présent document.
-                    {getCitationMarkersForPage(currentPage).map(([citationId, citation]) => (
-                      <sup key={citationId} className="ml-1">
-                        <span
-                          className={`inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full border-2 transition-all duration-300 ${
-                            highlightedCitation === citationId
-                              ? "bg-primary text-primary-foreground border-primary shadow-lg scale-110"
-                              : "bg-accent text-accent-foreground border-accent hover:bg-primary/20 hover:border-primary"
-                          }`}
-                        >
-                          [{citationId}]
-                        </span>
-                      </sup>
-                    ))}
-                  </p>
-                  <p className="text-sm leading-relaxed">
-                    Article {currentPage + 1} - Durée et modalités : Le contrat prend effet à compter de sa signature et
-                    reste valable pour une durée de 12 mois, renouvelable par tacite reconduction.
-                    {getCitationMarkersForPage(currentPage + 1).map(([citationId, citation]) => (
+                    s&apos;appliquent à l&apos;ensemble des services fournis dans le cadre de cet accord.
+                    {getCitationMarkersForPage(currentPage).map(([citationId]) => (
                       <sup key={citationId} className="ml-1">
                         <span
                           className={`inline-flex items-center justify-center w-5 h-5 text-xs font-bold rounded-full border-2 transition-all duration-300 ${

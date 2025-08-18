@@ -64,7 +64,7 @@ const Sources: React.FC = () => {
             )}
             <div className="overflow-x-auto w-full">
               <div className="min-w-full inline-block align-middle w-10/12 max-w-4xl">
-                <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-11/12 mx-auto">
+                <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-11/12 ">
                   <div className="px-6 py-4 flex justify-between items-center border-b border-gray-200">
                     <div className="relative max-w-sm">
                       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">

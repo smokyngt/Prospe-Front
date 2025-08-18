@@ -1,29 +1,29 @@
-type EventCallback = (data: any) => void
+type EventCallback<T = unknown> = (data: T) => void
 
 class EventBus {
-  private events: Map<string, EventCallback[]> = new Map()
+  private events: Map<string, EventCallback<unknown>[]> = new Map()
 
-  on(event: string, callback: EventCallback) {
+  on<T = unknown>(event: string, callback: EventCallback<T>) {
     if (!this.events.has(event)) {
       this.events.set(event, [])
     }
-    this.events.get(event)!.push(callback)
+  this.events.get(event)!.push(callback as EventCallback<unknown>)
   }
 
-  off(event: string, callback: EventCallback) {
+  off<T = unknown>(event: string, callback: EventCallback<T>) {
     const callbacks = this.events.get(event)
     if (callbacks) {
-      const index = callbacks.indexOf(callback)
-      if (index > -1) {
-        callbacks.splice(index, 1)
+      const idx = callbacks.findIndex((cb) => cb === (callback as unknown as EventCallback<unknown>))
+      if (idx > -1) {
+        callbacks.splice(idx, 1)
       }
     }
   }
 
-  emit(event: string, data?: any) {
+  emit<T = unknown>(event: string, data?: T) {
     const callbacks = this.events.get(event)
     if (callbacks) {
-      callbacks.forEach((callback) => callback(data))
+      callbacks.forEach((callback) => (callback as EventCallback<T>)(data as T))
     }
   }
 

@@ -3,13 +3,14 @@
 import { type SetStateAction, useState } from "react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/InputChat"
-import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen } from "lucide-react"
+import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen, Loader2 } from "lucide-react"
 
 export function PdfViewer() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages] = useState(15)
   const [zoom, setZoom] = useState(100)
   const [searchTerm, setSearchTerm] = useState("")
+  const [isDownloading, setIsDownloading] = useState(false)
 
   const documents = [
     { id: "1", name: "Contrat_Verdi_2021.pdf", pages: 15, active: true },
@@ -54,8 +55,17 @@ export function PdfViewer() {
           <Button variant="outline" size="sm">
             <RotateCw className="h-3 w-3" />
           </Button>
-          <Button variant="outline" size="sm">
-            <Download className="h-3 w-3" />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setIsDownloading(true)
+              setTimeout(() => setIsDownloading(false), 1200)
+            }}
+            disabled={isDownloading}
+            title={isDownloading ? 'Téléchargement…' : 'Télécharger'}
+          >
+            {isDownloading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Download className="h-3 w-3" />}
           </Button>
         </div>
 
@@ -120,11 +130,11 @@ export function PdfViewer() {
                       Le présent contrat définit les modalités de collaboration
                     </span>{" "}
                     entre les parties pour la réalisation des prestations définies en annexe. Les clauses générales
-                    s'appliquent à l'ensemble des services fournis dans le cadre de cet accord.
+                    s&apos;appliquent à l&apos;ensemble des services fournis dans le cadre de cet accord.
                   </p>
                   <p className="text-sm leading-relaxed">
-                    Article 1 - Objet du contrat : La société s'engage à fournir les services de conseil et
-                    d'accompagnement technique selon les spécifications détaillées dans le cahier des charges annexé au
+                    Article 1 - Objet du contrat : La société s&apos;engage à fournir les services de conseil et
+                    d&apos;accompagnement technique selon les spécifications détaillées dans le cahier des charges annexé au
                     présent document.
                   </p>
                   <p className="text-sm leading-relaxed">
