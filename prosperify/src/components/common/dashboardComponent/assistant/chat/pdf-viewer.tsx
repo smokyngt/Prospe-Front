@@ -1,9 +1,19 @@
 "use client"
 
-import { type SetStateAction, useState } from "react"
+import { type SetStateAction, useEffect, useRef, useState } from "react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/InputChat"
 import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen, Loader2 } from "lucide-react"
+import { eventBus } from "@/lib/event-bus"
+
+export interface CitationBox {
+  id: string
+  tag: string
+  filename: string
+  page: number
+  snippet?: string
+  bbox?: { x: number; y: number; width: number; height: number } // percent coords
+}
 
 export function PdfViewer() {
   const [currentPage, setCurrentPage] = useState(1)
@@ -11,12 +21,63 @@ export function PdfViewer() {
   const [zoom, setZoom] = useState(100)
   const [searchTerm, setSearchTerm] = useState("")
   const [isDownloading, setIsDownloading] = useState(false)
+  const [citations, setCitations] = useState<CitationBox[]>([])
+  const [focusedCitation, setFocusedCitation] = useState<string | null>(null)
+
+  const viewerRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const handler = (data: any) => {
+      if (data && data.filename) {
+        // If the event contains bbox/tag info we add it to citations if not present
+        if (data.tag) {
+          setCitations((prev) => {
+            if (prev.find((c) => c.tag === data.tag)) return prev
+            return [
+              ...prev,
+              {
+                id: `c_${Date.now()}`,
+                tag: data.tag,
+                filename: data.filename,
+                page: data.page,
+                snippet: data.highlight,
+                bbox: data.bbox,
+              },
+            ]
+          })
+        }
+
+        // focus the page and optionally a tag
+        setCurrentPage(data.page || 1)
+        if (data.tag) {
+          setFocusedCitation(data.tag)
+          setTimeout(() => setFocusedCitation(null), 3000)
+        }
+      }
+    }
+
+    eventBus.on("pdf:goToCitation", handler)
+    return () => {
+      eventBus.off("pdf:goToCitation", handler)
+    }
+  }, [])
 
   const documents = [
     { id: "1", name: "Contrat_Verdi_2021.pdf", pages: 15, active: true },
     { id: "2", name: "Rapport_Financier_Q4.pdf", pages: 23, active: false },
     { id: "3", name: "Specifications_Techniques.pdf", pages: 8, active: false },
   ]
+
+  // helper to map percent bbox to style (assuming the white page container)
+  const bboxToStyle = (bbox: CitationBox["bbox"]) => {
+    if (!bbox) return {}
+    return {
+      left: `${bbox.x}%`,
+      top: `${bbox.y}%`,
+      width: `${bbox.width}%`,
+      height: `${bbox.height}%`,
+    } as React.CSSProperties
+  }
 
   return (
     <div className="h-full flex flex-col bg-card">
@@ -112,7 +173,8 @@ export function PdfViewer() {
         <div className="max-w-full mx-auto">
           {/* Simulated PDF Page */}
           <div
-            className="bg-white shadow-lg mx-auto border"
+            ref={viewerRef}
+            className="bg-white shadow-lg mx-auto border relative"
             style={{
               width: `${(595 * zoom) / 100}px`,
               height: `${(842 * zoom) / 100}px`,
@@ -144,6 +206,17 @@ export function PdfViewer() {
                 </div>
               </div>
             </div>
+
+            {/* Overlay bounding boxes */}
+            {citations
+              .filter((c) => c.page === currentPage && c.bbox)
+              .map((c) => (
+                <div
+                  key={c.tag}
+                  className={`absolute border-2 ${focusedCitation === c.tag ? "border-primary shadow-lg" : "border-accent/60"} bg-transparent pointer-events-none`}
+                  style={{ ...bboxToStyle(c.bbox), zIndex: focusedCitation === c.tag ? 40 : 30 }}
+                />
+              ))}
           </div>
         </div>
       </div>

@@ -2,12 +2,16 @@
 import { Button } from "./ui/button"
 import { FileText, ExternalLink } from "lucide-react"
 import { InlineCitationText } from "./features/inline-citation-text"
+import GeneralPfp from "@/assets/avatars/general.svg"
+import LegalPfp from "@/assets/avatars/legal.svg"
+import FinancePfp from "@/assets/avatars/finance.svg"
 
 interface Message {
   id: string
   type: "user" | "assistant"
   content: string
   timestamp: Date
+  assistantId?: string
   pdfReference?: {
     filename: string
     page: number
