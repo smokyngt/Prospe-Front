@@ -4,9 +4,9 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { Button } from "../ui/button"
 import { Input } from "../ui/InputChat"
 import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen, Loader2 } from "lucide-react"
-import { usePdf } from "@/providers/pdf-provider"
-import { useCitations } from "@/providers/citations-provider"
-import { eventBus } from "@/lib/event-bus"
+import { usePdf } from "@/components/common/dashboardComponent/assistant/providers/pdf-provider"
+import { useCitations } from "@/components/common/dashboardComponent/assistant/providers/citations-provider"
+import { eventBus } from "@/components/common/dashboardComponent/assistant/chat/lib/event-bus"
 
 export function EnhancedPdfViewer() {
   const { documents, activeDocument, currentPage, setCurrentPage, setActiveDocument } = usePdf()

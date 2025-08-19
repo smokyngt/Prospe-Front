@@ -1,7 +1,7 @@
 "use client"
 
 import { createContext, useContext, useState, type ReactNode } from "react"
-import { eventBus } from "@/lib/event-bus"
+import { eventBus } from "@/components/common/dashboardComponent/assistant/chat/lib/event-bus"
 
 export interface Citation {
   id: string

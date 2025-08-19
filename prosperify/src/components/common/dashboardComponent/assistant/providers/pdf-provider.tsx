@@ -1,8 +1,8 @@
 "use client"
 
 import React, { createContext, useContext, useState, useRef, useCallback, type ReactNode } from "react"
-import { FuzzySearchEngine, type SearchResult } from "@/lib/fuzzy-search"
-import { eventBus } from "@/lib/event-bus"
+import { FuzzySearchEngine, type SearchResult } from "@/components/common/dashboardComponent/assistant/chat/lib/fuzzy-search"
+import { eventBus } from "@/components/common/dashboardComponent/assistant/chat/lib/event-bus"
 
 export interface PdfDocument {
   id: string

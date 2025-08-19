@@ -4,6 +4,7 @@ import React from "react"
 import { useState, useRef, useCallback } from "react"
 import { ChatInterface } from "@/components/common/dashboardComponent/assistant/chat/chat-interface"
 import { EnhancedPdfViewer } from "@/components/common/dashboardComponent/assistant/chat/features/enhanced-pdf-viewer"
+import ChatWithProviders from "@/components/common/dashboardComponent/assistant/providers/chat-dnd-provider"
 
 const Playground: React.FC = () => {
   const [leftWidth, setLeftWidth] = useState(50)
@@ -37,9 +38,9 @@ const Playground: React.FC = () => {
     if (isResizing) {
       document.addEventListener("mousemove", handleMouseMove)
       document.addEventListener("mouseup", handleMouseUp)
-      document.body.style.cursor = "col-resize"
-      document.body.style.userSelect = "none"
-      document.body.style.pointerEvents = "none"
+      document.body.style.cursor = ""
+      document.body.style.userSelect = ""
+    
     }
 
     return () => {
@@ -52,6 +53,7 @@ const Playground: React.FC = () => {
   }, [isResizing, handleMouseMove, handleMouseUp])
 
   return (
+    <ChatWithProviders>
     <div ref={containerRef} className="h-screen flex">
       <div
         className="min-w-0 transition-all duration-300 ease-out"
@@ -82,6 +84,7 @@ const Playground: React.FC = () => {
         </div>
       )}
     </div>
+    </ChatWithProviders>
   )
 }
 

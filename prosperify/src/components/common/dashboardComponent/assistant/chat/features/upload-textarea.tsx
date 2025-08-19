@@ -5,8 +5,8 @@ import { useRef, useState, useCallback } from "react"
 import { Textarea } from "../ui/textareaChat"
 import { Button } from "../ui/button"
 import { Paperclip, FileText, X } from "lucide-react"
-import { usePdf } from "@/providers/pdf-provider"
-import { cn } from "@/lib/utils"
+import { usePdf } from "@/components/common/dashboardComponent/assistant/providers/pdf-provider"
+import { cn } from "@/components/common/dashboardComponent/assistant/chat/lib/utils"
 
 interface UploadTextareaProps {
   value: string

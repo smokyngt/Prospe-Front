@@ -4,7 +4,7 @@ import { type SetStateAction, useEffect, useRef, useState } from "react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/InputChat"
 import { ZoomIn, ZoomOut, Search, Download, RotateCw, BookOpen, Loader2 } from "lucide-react"
-import { eventBus } from "@/lib/event-bus"
+import { eventBus } from "@/components/common/dashboardComponent/assistant/chat/lib/event-bus"
 
 export interface CitationBox {
   id: string

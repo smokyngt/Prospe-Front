@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useRef, useState, useEffect, type ReactNode } from "react"
 import { createPortal } from "react-dom"
-import { eventBus } from "@/lib/event-bus"
+import { eventBus } from "@/components/common/dashboardComponent/assistant/chat/lib/event-bus"
 
 interface DndContextType {
   isDragging: boolean

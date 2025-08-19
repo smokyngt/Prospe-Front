@@ -7,6 +7,7 @@ import { EnhancedChatInput } from "./enhanced-chat-input"
 import { Button } from "./ui/button"
 import { Menu, PanelRightClose, PanelRightOpen } from "lucide-react"
 
+
 interface Message {
   id: string
   type: "user" | "assistant"
@@ -106,6 +107,7 @@ export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatI
   }
 
   return (
+   
     <div className="h-full flex ">
       {/* Sidebar */}
       <div className={`transition-all duration-300 ${isSidebarOpen ? "w-80" : "w-0 overflow-hidden"}`}>
@@ -150,5 +152,6 @@ export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatI
         </div>
       </div>
     </div>
+ 
   )
 }

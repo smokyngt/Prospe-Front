@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import Home from './Pages/home';
 import type { IStaticMethods } from 'preline/preline';
 import 'preline';
+import { DndProvider } from "@/components/common/dashboardComponent/assistant/providers/dnd-provider"
 
 import DashboardAssistant from './Pages/dashboard/assistant/dashboard.assistant';
 import IndexAssistant from './Pages/dashboard/assistant/index.assistant';
@@ -57,8 +58,9 @@ const App: React.FC = () => {
         </Route>
 
         {/* Chat/Playground - Route séparée avec sa propre interface */}
-        <Route path="/assistant/:id/playground" element={<Playground />} />
-    
+      
+          <Route path="/assistant/:id/playground" element={<Playground />} />
+       
 
       {/* Dashboard Orga layout + nested routes */}
         <Route path="/dashboard-orga" element={<DashboardOrga />}>

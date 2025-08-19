@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "../ui/button"
-import { useCitations } from "@/providers/citations-provider"
+import { useCitations } from "@/components/common/dashboardComponent/assistant/providers/citations-provider"
 import { useState } from "react"
 
 interface InlineCitationTextProps {
