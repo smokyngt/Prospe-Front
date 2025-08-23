@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { MessageSquare, Search, Filter, History, Settings, X, ChevronDown } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import { Input } from "./ui/InputChat"
 import { Button } from "./ui/button"
 import Logo from "@/assets/Asset 1.png"
@@ -90,7 +91,7 @@ export default function ChatSidebar({
     },
     { icon: Filter, label: "Filtres" },
     { icon: History, label: "Historique" },
-    { icon: Settings, label: "Paramètres" },
+    { icon: Settings, label: "Parammètres", onClick: () => { const navigate = useNavigate(); navigate('/assistant/:id/settings'); } },
   ]
 
   return (
