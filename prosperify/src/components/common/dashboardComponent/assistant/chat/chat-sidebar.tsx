@@ -45,8 +45,8 @@ export default function ChatSidebar({
   const assistants: Assistant[] = [
     {
       id: "general",
-      name: "Assistant Général",
-      description: "Assistant polyvalent pour toutes vos questions",
+      name: "Assistant Intégration",
+      description: "Assistant intégration pour toutes vos questions",
       icon: "🤖",
     },
     {

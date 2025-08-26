@@ -63,7 +63,7 @@ export function PdfViewer() {
   }, [])
 
   const documents = [
-    { id: "1", name: "Contrat_Verdi_2021.pdf", pages: 15, active: true },
+    { id: "1", name: "Performance_Ventes_Q2.pdf", pages: 15, active: true },
     { id: "2", name: "Rapport_Financier_Q4.pdf", pages: 23, active: false },
     { id: "3", name: "Specifications_Techniques.pdf", pages: 8, active: false },
   ]
@@ -182,30 +182,24 @@ export function PdfViewer() {
               transformOrigin: "top center",
             }}
           >
-            <div className="p-8 h-full">
-              <div className="space-y-4">
-                <h1 className="text-2xl font-bold text-gray-900">Contrat de Prestation - Verdi 2021</h1>
-                <div className="h-px bg-gray-300" />
-                <div className="space-y-3 text-gray-700">
-                  <p className="text-sm leading-relaxed">
-                    <span className="bg-yellow-200 px-1">
-                      Le présent contrat définit les modalités de collaboration
-                    </span>{" "}
-                    entre les parties pour la réalisation des prestations définies en annexe. Les clauses générales
-                    s&apos;appliquent à l&apos;ensemble des services fournis dans le cadre de cet accord.
-                  </p>
-                  <p className="text-sm leading-relaxed">
-                    Article 1 - Objet du contrat : La société s&apos;engage à fournir les services de conseil et
-                    d&apos;accompagnement technique selon les spécifications détaillées dans le cahier des charges annexé au
-                    présent document.
-                  </p>
-                  <p className="text-sm leading-relaxed">
-                    Article 2 - Durée et modalités : Le contrat prend effet à compter de sa signature et reste valable
-                    pour une durée de 12 mois, renouvelable par tacite reconduction.
-                  </p>
-                </div>
-              </div>
-            </div>
+         <div className="p-8 h-full">
+
+              <div className="space-y-4">
+                <h1 className="text-2xl font-bold text-gray-900">Guide d'intégration des Agents.pdf</h1>
+                <div className="h-px bg-gray-300" />
+                <div className="space-y-3 text-gray-700">
+                  <p className="text-sm leading-relaxed">
+                    Chapitre 3 : Utilisation des outils Marketing
+                  </p>
+                  <p className="text-sm leading-relaxed">
+                    <span className="bg-yellow-200"> Le 'Manuel du Nouvel Agent' a été conçu pour vous guider à travers nos outils. La base de données partagée est votre premier point de contact, vous y trouverez tous les actifs de communication de l'agence, y compris les plans de communication et les templates.</span> Vous pouvez y télécharger nos modèles de fiches techniques, utiliser nos scripts de storytelling et contacter nos partenaires pour des shootings photo professionnels ou des visites 3D.
+                  </p>
+                  <p className="text-sm leading-relaxed">
+                    Pour chaque nouveau mandat, il est impératif de suivre le processus de communication défini, en s'assurant que tous les contenus sont en adéquation avec l'image de marque de l'agence. L'accès à ces ressources est conçu pour vous permettre de promouvoir vos biens de manière autonome tout en bénéficiant de la visibilité et de la réputation de l'agence Kretz.
+                  </p>
+                </div>
+              </div>
+            </div>
 
             {/* Overlay bounding boxes */}
             {citations

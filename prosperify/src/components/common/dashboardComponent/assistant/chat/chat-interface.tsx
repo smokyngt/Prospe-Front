@@ -37,7 +37,7 @@ export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatI
   ])
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [conversations, setConversations] = useState([
-    { id: "1", title: "Contrat Verdi 2021", messages: [...messages] },
+    { id: "1", title: " Intégration agents", messages: [...messages] },
     { id: "2", title: "Budget Q4", messages: [] },
     { id: "3", title: "Procédures RH", messages: [] },
     { id: "4", title: "Rapport mensuel", messages: [] },
@@ -63,11 +63,11 @@ export function ChatInterface({ onTogglePdfViewer, isPdfViewerCollapsed }: ChatI
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "assistant",
-        content: `D'après le document "Contrat_Verdi_2021.pdf", page 3, je trouve les informations suivantes : "${content.slice(0, 50)}..." Cette information se trouve dans la section des clauses générales. [1]`,
+        content: `D'après le document "Guide d'intégration des Agents.pdf", page 10, La base de données partagée est votre premier point de contact en tant que nouvel agent. Elle vous donne accès aux plans de communication, aux modèles de vidéos, aux scripts de storytelling et aux coordonnées de nos partenaires pour des shootings photo professionnels ou des visites 3D. : "${content.slice(0, 50)}...". [1]`,
         timestamp: new Date(),
         pdfReference: {
-          filename: "Contrat_Verdi_2021.pdf",
-          page: 3,
+          filename: "Guide d'intégration des Agents.pdf",
+          page: 10,
           highlight: content.slice(0, 50),
         },
       }
