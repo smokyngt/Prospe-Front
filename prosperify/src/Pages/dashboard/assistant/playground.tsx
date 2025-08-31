@@ -5,6 +5,7 @@ import { useState, useRef, useCallback } from "react"
 import { ChatInterface } from "@/components/common/dashboardComponent/assistant/chat/chat-interface"
 import { PdfViewer } from "@/components/common/dashboardComponent/assistant/chat/PdfViewerDemo"
 import ChatWithProviders from "@/components/common/dashboardComponent/assistant/providers/chat-dnd-provider"
+import { EnhancedPdfViewer } from "@/components/common/dashboardComponent/assistant/chat/features/enhanced-pdf-viewer"
 
 const Playground: React.FC = () => {
   const [leftWidth, setLeftWidth] = useState(50)
@@ -80,7 +81,7 @@ const Playground: React.FC = () => {
 
       {!isPdfViewerCollapsed && (
         <div className="min-w-0 transition-all duration-300 ease-out" style={{ width: `${100 - leftWidth}%` }}>
-          <PdfViewer />
+          <EnhancedPdfViewer />
         </div>
       )}
     </div>
