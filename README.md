@@ -146,13 +146,5 @@ npm build
 npm preview
 ```
 
-## 🛡 Licence
-
-Projet privé (tous droits réservés) – ajouter une licence si open source plus tard.
-
----
-
-Pour toute question ou évolution : ouvrez une issue ou discutez via l'espace projet.
-
 Bon code ✨
 
